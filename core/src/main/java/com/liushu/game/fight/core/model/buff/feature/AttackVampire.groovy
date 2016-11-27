@@ -7,6 +7,11 @@ import com.liushu.game.fight.core.model.listener.base.ListenerFactory
 /**
  * Created by asus-pc on 2016-10-3.
  */
+
+@Deprecated
+/**
+ * user BuffImpl with spring config
+ */
 class AttackVampire extends Buff implements Feature{
 
     AttackVampire() {

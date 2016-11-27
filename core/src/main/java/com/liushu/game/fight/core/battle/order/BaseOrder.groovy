@@ -1,6 +1,7 @@
 package com.liushu.game.fight.core.battle.order
 
 import com.liushu.game.fight.core.model.Player
+import com.liushu.game.fight.core.model.event.EventFactory
 
 
 /**
@@ -9,6 +10,14 @@ import com.liushu.game.fight.core.model.Player
 abstract class BaseOrder implements Order{
 
     Player player
-    boolean valid
+    boolean valid = true
 
+    BaseOrder(Player player) {
+        this.player = player
+    }
+
+    @Override
+    def exclusion() {
+        player.currentOrder = this.getClass()
+    }
 }

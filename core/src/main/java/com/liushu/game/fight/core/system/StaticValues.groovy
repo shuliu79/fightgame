@@ -22,4 +22,6 @@ class StaticValues {
     static int VERY_HIGH = 8
     static int HIGHEST = 9
 
+    static int FOREVER = 9999;
+
 }

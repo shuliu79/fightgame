@@ -1,19 +1,19 @@
 package com.liushu.game.fight.core.model
 
+import com.liushu.game.fight.core.model.buff.Buff
 import com.liushu.game.fight.core.model.buff.BuffPool
 import com.liushu.game.fight.core.model.event.BaseEvent
-import com.liushu.game.fight.core.model.event.EventExecutor
 
 /**
  * Created by asus-pc on 2016-11-5.
  */
-interface Unit {
+interface Unit extends BuffPool {
 
-    EventExecutor getEventExecutor()
+//    EventExecutor getEventExecutor()
 
     void attack(Unit unit)
 
-    void setEventExecutor(EventExecutor eventExecutor)
+//    void setEventExecutor(EventExecutor eventExecutor)
 
     long getId()
 
@@ -63,9 +63,9 @@ interface Unit {
 
     void setMpRegeneration(IntHeroProperty mpRegeneration)
 
-    BuffPool getBuffPool()//todo 将buffPool改为私有对象，只暴露一些必要的方法，不能直接调用publish方法
+//    BuffPool getBuffPool()//todo 将buffPool改为私有对象，只暴露一些必要的方法，不能直接调用publish方法
 
-    void setBuffPool(BuffPool buffPool)
+//    void setBuffPool(BuffPool buffPool)
 
     boolean isDeath()
 
@@ -73,5 +73,10 @@ interface Unit {
 
     def executeEvent(BaseEvent event)
 
+    def addBuff(int time,Buff buff)
+
+    def removeBuff(Buff buff)
+
+    def getAttackValue()
 
 }

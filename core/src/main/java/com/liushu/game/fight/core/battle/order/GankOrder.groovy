@@ -8,6 +8,10 @@ import com.liushu.game.fight.core.system.StaticValues
  */
 class GankOrder extends BaseOrder{
 
+    GankOrder(Player player) {
+        super(player)
+    }
+
     @Override
     int getPriority() {
         return StaticValues.LOW
@@ -15,10 +19,14 @@ class GankOrder extends BaseOrder{
 
     @Override
     def exclusion() {
-        player.creatures.each {
-            it.attack(player.getOpponentHero())
+        super.exclusion()
+        if (!player.getOpponentHero().death &&
+                !player.team.getOpponentTeam().player.currentOrder.equals(GoBackOrder.class)) {
+            player.creatures.each {
+                it.attack(player.getOpponentHero())
+            }
+            player.hero.attack(player.getOpponentHero())
         }
-        player.hero.attack(player.getOpponentHero())
     }
 
 }

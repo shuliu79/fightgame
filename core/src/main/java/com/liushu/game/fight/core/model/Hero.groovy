@@ -1,7 +1,9 @@
 package com.liushu.game.fight.core.model
 
 import com.liushu.game.fight.core.model.action.ActionFactory
+import com.liushu.game.fight.core.model.buff.BuffPool
 import com.liushu.game.fight.core.model.event.BaseEvent
+import com.liushu.game.fight.core.model.event.EventFactory
 import com.liushu.game.fight.core.model.event.UnitEvent
 import com.liushu.game.fight.core.model.magic.Magic
 import com.liushu.game.fight.core.utils.GsonUtil
@@ -9,7 +11,7 @@ import com.liushu.game.fight.core.utils.GsonUtil
 /**
  * Created by asus-pc on 2016-9-10.
  */
-class Hero extends Creature implements LevelModel{
+abstract class Hero extends Creature implements LevelModel{
 
     HeroType type
 
@@ -67,6 +69,11 @@ class Hero extends Creature implements LevelModel{
         ])
     }
 
-
+    def farm(){
+        def addGoldEvent = EventFactory.createAddGoldEvent(player,getAttackValue())
+        def experienceEvent = EventFactory.createExperienceEvent(this,getAttackValue())
+        executeEvent(addGoldEvent)
+        executeEvent(experienceEvent)
+    }
 
 }

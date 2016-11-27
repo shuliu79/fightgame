@@ -1,5 +1,6 @@
 package com.liushu.game.fight.test.base
 
+//import org.testng.annotations.Test
 import org.junit.Test
 
 /**
@@ -9,10 +10,10 @@ class BaseTest {
 
     @Test
     public void test(){
+        println "here"
         10.times {
-            printf "$it"
+            println "aaa"
         }
     }
-
 
 }

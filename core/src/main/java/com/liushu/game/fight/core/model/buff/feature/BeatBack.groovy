@@ -7,6 +7,7 @@ import com.liushu.game.fight.core.model.listener.base.ListenerFactory
 /**
  * Created by asus-pc on 2016-11-13.
  */
+@Deprecated
 class BeatBack extends Buff implements Feature{
 
     BeatBack() {

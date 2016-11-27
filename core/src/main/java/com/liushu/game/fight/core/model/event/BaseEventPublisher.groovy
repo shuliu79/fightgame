@@ -26,6 +26,9 @@ class BaseEventPublisher implements EventPublisher{
 
     @Override
     boolean publishEvent(Event event) {
+        if (!((BaseEvent)event).valid){
+            return
+        }
         def listeners = listenerMap.get(event.class,[:])
         listeners.each {
             if (it.value.canHandle(event)) {

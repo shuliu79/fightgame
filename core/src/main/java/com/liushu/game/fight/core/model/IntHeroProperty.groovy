@@ -6,7 +6,7 @@ package com.liushu.game.fight.core.model
 class IntHeroProperty extends BaseHeroProperty<Integer>{
 
     IntHeroProperty(Integer base) {
-        super(base)
+        super(new Integer(base))
         addition = 0;
     }
 

@@ -23,4 +23,16 @@ class PropertyChangeInfo<T> {
         return newExtra-oldExtra
     }
 
+    T getOldValue(){
+        return oldExtra+oldBase
+    }
+
+    T getNewValue(){
+        return newExtra+newBase
+    }
+
+    T getValueChange(){
+        return newBase+newExtra-oldBase-oldExtra
+    }
+
 }

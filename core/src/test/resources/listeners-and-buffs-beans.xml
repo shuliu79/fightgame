@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--listeners-->
+    <bean id="attackVampireListener" class="com.liushu.game.fight.core.model.listener.AttackVampireListener" scope="prototype">
+        <property name="id" value="10"/>
+        <property name="rate" value="0.05"/>
+    </bean>
+    <bean id="beatBackListener" class="com.liushu.game.fight.core.model.listener.BeatBackListener" scope="prototype">
+        <property name="id" value="20"/>
+    </bean>
+    <bean id="magicHurtImmuneListener" class="com.liushu.game.fight.core.model.listener.MagicHurtImmuneListener" scope="prototype">
+        <property name="id" value="30"/>
+    </bean>
+    <bean id="magicPowerListener" class="com.liushu.game.fight.core.model.listener.MagicPowerListener" scope="prototype">
+        <property name="id" value="40"/>
+        <property name="magicHurt" value="10"/>
+    </bean>
+    <bean id="magicShieldListener" class="com.liushu.game.fight.core.model.listener.MagicShieldListener" scope="prototype">
+        <property name="id" value="50"/>
+        <property name="factor" value="2"/>
+    </bean>
+    <bean id="manaBurnListener" class="com.liushu.game.fight.core.model.listener.ManaBurnListener" scope="prototype">
+        <property name="id" value="60"/>
+        <property name="burnValue" value="5"/>
+    </bean>
+    <bean id="pointMagicImmuneListener" class="com.liushu.game.fight.core.model.listener.PointMagicImmuneListener" scope="prototype">
+        <property name="id" value="70"/>
+    </bean>
+    <bean id="storeageListener" class="com.liushu.game.fight.core.model.listener.StorageListener" scope="prototype">
+        <property name="id" value="80"/>
+        <property name="hpRegenerationAdd" value="0.8"/>
+        <property name="attackAdd" value="1.5"/>
+    </bean>
+    <bean id="roundUpdateListener" class="com.liushu.game.fight.core.model.listener.RoundUpdateListener" scope="prototype">
+        <property name="id" value="90"/>
+    </bean>
+    <bean id="unitRoundFinishListener" class="com.liushu.game.fight.core.model.listener.UnitRoundFinishListener">
+        <property name="id" value="100"/>
+    </bean>
+    <bean id="playerRoundFinishListener" class="com.liushu.game.fight.core.model.listener.UnitRoundFinishListener">
+        <property name="id" value="110"/>
+    </bean>
+
+    <!--features-->
+    <bean id="attackVampire" class="com.liushu.game.fight.core.model.buff.BuffImpl" scope="prototype">
+        <property name="id" value="2000"/>
+        <property name="listeners">
+            <list>
+                <ref bean="attackVampireListener"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="beatBack" class="com.liushu.game.fight.core.model.buff.BuffImpl" scope="prototype">
+        <property name="id" value="2010"/>
+        <property name="listeners">
+            <list>
+                <ref bean="beatBackListener"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="crazy" class="com.liushu.game.fight.core.model.buff.feature.Crazy">
+        <property name="id" value="2020"/>
+    </bean>
+    <bean id="hpRegenerationEnhance" class="com.liushu.game.fight.core.model.buff.feature.HpRegenerationEnhance">
+        <property name="id" value="2030"/>
+        <property name="hpRegenerationValue" value="5"/>
+    </bean>
+    <bean id="magicPower" class="com.liushu.game.fight.core.model.buff.BuffImpl">
+        <property name="id" value="2040"/>
+        <property name="listeners">
+            <list>
+                <ref bean="magicPowerListener"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="magicPowerEnhance" class="com.liushu.game.fight.core.model.buff.feature.MagicPowerEnhance">
+        <property name="id" value="2050"/>
+        <property name="magicPowerValue" value="2"/>
+    </bean>
+    <bean id="magicShield" class="com.liushu.game.fight.core.model.buff.BuffImpl">
+        <property name="id" value="2060"/>
+        <property name="listeners">
+            <list>
+                <ref bean="magicShieldListener"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="manaBurn" class="com.liushu.game.fight.core.model.buff.BuffImpl">
+        <property name="id" value="2070"/>
+        <property name="listeners">
+            <list>
+                <ref bean="manaBurnListener"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="stoneSkin" class="com.liushu.game.fight.core.model.buff.feature.StoneSkin">
+        <property name="id" value="2080"/>
+        <property name="armorValue" value="4"/>
+    </bean>
+    <bean id="storage" class="com.liushu.game.fight.core.model.buff.feature.Storage">
+        <property name="id" value="2090"/>
+        <property name="listeners">
+            <list>
+                <ref bean="storeageListener"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="defendStatus" class="com.liushu.game.fight.core.model.buff.DefendStatus">
+        <property name="id" value="2100"/>
+        <property name="defendValue" value="10"/>
+    </bean>
+
+</beans>

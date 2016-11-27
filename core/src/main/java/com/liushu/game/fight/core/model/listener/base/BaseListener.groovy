@@ -11,9 +11,9 @@ import com.liushu.game.fight.core.system.StaticValues
  */
 abstract class BaseListener<T extends BaseEvent> implements Listener {
 
-    String id
+    String id //todo 用来兼容一个publisher可以存在多个同类型的listener
     int priority = StaticValues.NORMAL
-    Unit holder
+    def holder//注册的时候赋值
 
     protected void doBeforeExecute(T event) {
     }
@@ -63,6 +63,8 @@ abstract class BaseListener<T extends BaseEvent> implements Listener {
     void destroy() {
     }
 
-    protected abstract Class getEventClazz()
+    protected Class getEventClazz(){
+        return T
+    }
 
 }

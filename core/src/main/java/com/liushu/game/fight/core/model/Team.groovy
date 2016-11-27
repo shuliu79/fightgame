@@ -1,10 +1,12 @@
 package com.liushu.game.fight.core.model
 
+import com.justonetech.bimgeom.ifcgeomserver.tools.event.EventPublisher
+
 /**
  * Created by asus-pc on 2016-11-5.
  */
 //团队
-class Team {
+abstract class Team {
 
     Player player
     Team opponentTeam
@@ -13,15 +15,17 @@ class Team {
     Tower outerTower
     Tower middleTower
 
+    Battle battle
+
     def getCurrentTower(){
-        if (!mainTower.death){
-            return mainTower
-        }
         if (!outerTower.death){
             return outerTower
         }
         if (!middleTower.death){
             return middleTower
+        }
+        if (!mainTower.death){
+            return mainTower
         }
     }
 

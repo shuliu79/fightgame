@@ -8,14 +8,22 @@ import com.liushu.game.fight.core.model.listener.base.ListenerFactory
 /**
  * Created by asus-pc on 2016-10-2.
  */
-abstract class Buff<T extends Unit> {
+abstract class Buff<T extends Unit>{
 
     String id
-    Unit holder // 不知道有没有用
+    T holder // 不知道有没有用
     List<BaseListener> listeners
 
-    def afterAdd(T unit) {}
-    def afterRemove(T unit) {}
+    def afterAdd() {}
+    def afterRemove() {}
+
+    void setHolder(T holder){
+        this.holder = holder
+        this.listeners.each {
+            it.holder = holder
+        }
+    }
+
 
     def addListener(Class<BaseListener> clazz){
         addListener(ListenerFactory.createListener(clazz))

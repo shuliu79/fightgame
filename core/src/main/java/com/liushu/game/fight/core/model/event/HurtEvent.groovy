@@ -41,7 +41,7 @@ class HurtEvent extends TargetEvent{
             def experienceEvent = EventFactory.createExperienceEvent(source, factValue)
             source.executeEvent(experienceEvent)
         }
-        if (target.hp<=0){
+        if (target.hp.value<=0){
             def deathEvent = EventFactory.createDeathEvent(target,this)
             target.executeEvent(deathEvent)
         }

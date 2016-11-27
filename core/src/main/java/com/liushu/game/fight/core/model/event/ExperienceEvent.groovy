@@ -7,7 +7,6 @@ import com.liushu.game.fight.core.model.LevelModel
  */
 class ExperienceEvent extends UnitEvent{
 
-    LevelModel source
     int value
 
     ExperienceEvent(LevelModel source) {

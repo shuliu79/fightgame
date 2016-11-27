@@ -8,13 +8,13 @@ import com.liushu.game.fight.core.system.level.LevelConfig
 /**
  * Created by asus-pc on 2016-9-11.
  */
-class HeroPropertyFactory {
+class HeroPropertyFactory extends UnitPropertyFactory{
 
-    final static strengthHPFactor = 13
-    final static mindMPFactor = 9
-    final static powerMaxAttackFactor = 4/3f
-    final static strengthHPRegeneration = 1/3f
-    final static mindMPRegeneration = 1/3f
+    def strengthHPFactor = 13
+    def mindMPFactor = 9
+    def powerMaxAttackFactor = 4/3f
+    def strengthHPRegeneration = 1/3f
+    def mindMPRegeneration = 1/3f
 
     IntHeroProperty createLevel(Hero hero) {
 
@@ -25,7 +25,7 @@ class HeroPropertyFactory {
             hero.experience.subtract(LevelConfig.levelExperience[p.value])
             hero.power.add(hero.powerGrowth.value)
             hero.strength.add(hero.strengthGrowth.value)
-            hero.mind.add(hero.mind.value)
+            hero.mind.add(hero.mindGrowth.value)
         }
         return level
 
@@ -41,7 +41,7 @@ class HeroPropertyFactory {
                 p.base = 0
                 return
             } else {
-                while (LevelConfig.levelExperience[hero.level.value] <= p.value) {
+                while (LevelConfig.levelExperience[hero.level.value+1] <= p.value) {
                     hero.level.add(1)
                     if (hero.level.base == LevelConfig.maxLevel) {
                         p.base = 0
@@ -139,42 +139,32 @@ class HeroPropertyFactory {
         return mg
     }
 
-    protected static getMaxAttack(int num) {
+    protected getMaxAttack(int num) {
         return (int) (num * powerMaxAttackFactor)
     }
 
-    protected static getHPRegeneration(int num){
+    protected getHPRegeneration(int num){
         return (int)(num * strengthHPRegeneration)
     }
 
-    protected static getMPRegeneration(int num){
+    protected getMPRegeneration(int num){
         return (int)(num * mindMPRegeneration)
     }
 
     IntHeroProperty createPower(Hero hero) {
         def power = new IntHeroProperty(0)
-        power.onBaseAdd = { IntHeroProperty p, PropertyChangeInfo<Integer> info ->
-            hero.minAttack.add(info.baseChange)
-            hero.maxAttack.add(getMaxAttack(info.newBase) - getMaxAttack(info.oldBase))
+        def valueAdd = {IntHeroProperty p, PropertyChangeInfo<Integer> info ->
+            hero.minAttack.add(info.valueChange)
+            hero.maxAttack.add(getMaxAttack(info.newValue) - getMaxAttack(info.oldValue))
         }
-        power.onBaseSubtract = { IntHeroProperty p, PropertyChangeInfo<Integer> info ->
-//            if (info.newBase < 0){
-//                info.newBase = 0
-//            }
-            hero.minAttack.subtract(-info.baseChange)
-            hero.maxAttack.subtract(-(getMaxAttack(info.newBase) - getMaxAttack(info.oldBase)))
+        def valueSubtract = {IntHeroProperty p, PropertyChangeInfo<Integer> info ->
+            hero.minAttack.enhance(info.valueChange)
+            hero.maxAttack.enhance(getMaxAttack(info.newValue) - getMaxAttack(info.oldValue))
         }
-        power.onExtraAdd = {IntHeroProperty p, PropertyChangeInfo<Integer> info ->
-            hero.minAttack.enhance(info.baseChange)
-            hero.maxAttack.enhance(getMaxAttack(info.newBase) - getMaxAttack(info.oldBase))
-        }
-        power.onExtraSubtract = {IntHeroProperty p, PropertyChangeInfo<Integer> info ->
-//            if (info.newBase < 0){
-//                info.newBase = 0
-//            }
-            hero.minAttack.weaken(-info.baseChange)
-            hero.maxAttack.weaken(-(getMaxAttack(info.newBase) - getMaxAttack(info.oldBase)))
-        }
+        power.onBaseAdd = valueAdd
+        power.onBaseSubtract = valueAdd
+        power.onExtraAdd = valueSubtract
+        power.onExtraSubtract = valueSubtract
         return power
     }
 
@@ -220,71 +210,28 @@ class HeroPropertyFactory {
         return mind
     }
 
-    IntHeroProperty createMaxAttack(Hero hero) {
-        def maxAttack = new IntHeroProperty(1)
-        return maxAttack
-    }
-
-    IntHeroProperty createMinAttack(Hero hero) {
-        def minAttack = new IntHeroProperty(1)
-        return minAttack
-    }
-
-    IntHeroProperty createMaxHp(Hero hero) {
-        def maxHp = new IntHeroProperty(1)
-        maxHp.onBaseAdd = {IntHeroProperty p, PropertyChangeInfo<Integer> info ->
-            hero.hp.base = (int)(hero.hp.base*(info.newBase)/(info.oldBase))
-        }
-        maxHp.onBaseSubtract = {IntHeroProperty p, PropertyChangeInfo<Integer> info ->
-            hero.hp.base = (int)(hero.hp.base*(info.newBase)/(info.oldBase))
-        }
-        return maxHp
-    }
-
-    IntHeroProperty createHp(Hero hero) {
-        def hp = new IntHeroProperty(1)
-        return hp
-    }
-
-    IntHeroProperty createMaxMp(Hero hero) {
-        def maxMp = new IntHeroProperty(1)
-        maxMp.onBaseAdd = {IntHeroProperty p, PropertyChangeInfo<Integer> info ->
-            hero.mp.base = (int)(hero.mp.base*(info.newBase)/(info.oldBase))
-        }
-        maxMp.onBaseSubtract = {IntHeroProperty p, PropertyChangeInfo<Integer> info ->
-            hero.mp.base = (int)(hero.mp.base*(info.newBase)/(info.oldBase))
-        }
-        return maxMp
-    }
-
-    IntHeroProperty createMp(Hero hero) {
-        def mp = new IntHeroProperty(1)
-        return mp
-    }
-
-    IntHeroProperty createHpRegeneration(Hero hero) {
-        def hpRegeneration = new IntHeroProperty(0)
-        return hpRegeneration
-    }
-
-    IntHeroProperty createMpRegeneration(Hero hero) {
-        def mpRegeneration = new IntHeroProperty(0)
-        return mpRegeneration
-    }
-
-    IntHeroProperty createArmor(Hero hero) {
-        def armor = new IntHeroProperty(0)
-        return armor
-    }
-
-    IntHeroProperty createResistance(Hero hero) {
-        def resistance = new IntHeroProperty(0)
-        return resistance
-    }
 
     IntHeroProperty createMagicPower(Hero hero) {
         def magicPower = new IntHeroProperty(0)
         return magicPower
+    }
+
+    def initHeroProperties(Hero hero){
+        hero.level = createLevel(hero)
+        hero.experience = createExperience(hero)
+        hero.totalExperience = createTotalExperience(hero)
+
+        hero.powerGrowth = createPowerGrowth(hero)
+        hero.strengthGrowth = createStrengthGrowth(hero)
+        hero.mindGrowth = createMindGrowth(hero)
+
+        hero.power = createPower(hero)
+        hero.strength = createStrength(hero)
+        hero.mind = createMind(hero)
+        hero.magicPower = createMagicPower(hero)
+
+        initUnitProperties(hero)
+
     }
 
 }

@@ -10,14 +10,14 @@ import com.liushu.game.fight.core.model.buff.Buff
 class Crazy extends Buff implements Feature{
 
     @Override
-    def afterAdd(Unit unit) {
-        unit.maxAttack.enhance(10)
-        unit.minAttack.enhance(10)
+    def afterAdd() {
+        holder.maxAttack.enhance(10)
+        holder.minAttack.enhance(10)
     }
 
     @Override
-    def afterRemove(Unit unit) {
-        unit.maxAttack.weaken(10)
-        unit.minAttack.weaken(10)
+    def afterRemove() {
+        holder.maxAttack.weaken(10)
+        holder.minAttack.weaken(10)
     }
 }

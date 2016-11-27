@@ -15,10 +15,10 @@ class DefendStatus extends AbstractAttackListener implements UnitMatch{
 
     final static defendValue = 10
 
-    @Override
-    def doHandle(AttackAction attackAction) {
-        attackAction.addition+= defendValue
-    }
+//    @Override
+//    def doHandle(AttackAction attackAction) {
+//        attackAction.addition+= defendValue
+//    }
 
     @Override
     boolean canHandle(UnitRelation event, Unit unit) {

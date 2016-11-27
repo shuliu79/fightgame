@@ -2,6 +2,7 @@ package com.liushu.game.fight.core.model.event
 
 import com.liushu.game.fight.core.battle.order.Order
 import com.liushu.game.fight.core.model.LevelModel
+import com.liushu.game.fight.core.model.Player
 import com.liushu.game.fight.core.model.Unit
 
 /**
@@ -15,15 +16,15 @@ class EventFactory {
     }
 
     static UnitEvent createUnitEvent(Class<UnitEvent> clazz,Unit source){
-        def event = clazz.newInstance()
-        event.source = source
+        def event = clazz.newInstance(source)
+//        event.source = source
         return event
     }
 
     static TargetEvent createTargetEvent(Class<TargetEvent> clazz,Unit source,Unit target){
-        def event = clazz.newInstance()
-        event.source = source
-        event.target = target
+        def event = clazz.newInstance(source,target)
+//        event.source = source
+//        event.target = target
         return event
     }
 
@@ -62,9 +63,15 @@ class EventFactory {
         return event
     }
 
-    static ReceiveOrderEvent createReceiverOrderEvent(Order order){
-        ReceiveOrderEvent event = createUnitEvent(ReceiveOrderEvent,order.target) as ReceiveOrderEvent
+    static ReceiveOrderEvent createReceiverOrderEvent(Order order,Player player){
+        ReceiveOrderEvent event = new ReceiveOrderEvent(player)
         event.order = order
+        return event
+    }
+
+    static AddGoldEvent createAddGoldEvent(Player player,int value){
+        AddGoldEvent event = new AddGoldEvent(player)
+        event.value = value
         return event
     }
 

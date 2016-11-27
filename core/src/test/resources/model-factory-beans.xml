@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="eventPublisherFactory" class="com.liushu.game.fight.core.model.factory.EventPublisherFactory"/>
+    <bean id="eventExecutorFactory" class="com.liushu.game.fight.core.model.factory.EventExecutorFactory">
+        <property name="eventExecutor" ref="eventExecutor"/>
+    </bean>
+    <bean id="buffPoolFactory" class="com.liushu.game.fight.core.model.buff.BuffPoolFactory">
+        <property name="factory" ref="eventPublisherFactory"/>
+    </bean>
+    <bean id="unitPropertyFactory" class="com.liushu.game.fight.core.model.factory.UnitPropertyFactory"/>
+    <bean id="heroPropertyFactory" class="com.liushu.game.fight.core.model.factory.HeroPropertyFactory"/>
+
+    <bean id="battleFactory" class="com.liushu.game.fight.core.model.factory.BattleFactoryImpl">
+        <property name="eventPublisherFactory" ref="eventPublisherFactory"/>
+        <property name="eventExecutorFactory" ref="eventExecutorFactory"/>
+        <property name="defaultBattleListeners">
+            <list>
+                <ref bean="roundUpdateListener"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="heroFactory" class="com.liushu.game.fight.core.model.factory.HeroFactoryImpl">
+        <property name="heroPropertyFactory" ref="heroPropertyFactory"/>
+        <property name="buffPoolFactory" ref="buffPoolFactory"/>
+        <property name="eventPublisherFactory" ref="eventPublisherFactory"/>
+        <property name="defaultBattleListeners">
+            <list>
+                <ref bean="unitRoundFinishListener"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="playerFactory" class="com.liushu.game.fight.core.model.factory.PlayerFactoryImpl">
+        <property name="factory" ref="eventPublisherFactory"/>
+        <property name="defaultPlayerListeners">
+            <list>
+                <ref bean="playerRoundFinishListener"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="towerFactory" class="com.liushu.game.fight.core.model.factory.TowerFactoryImpl">
+        <property name="eventPublisherFactory" ref="eventPublisherFactory"/>
+        <property name="unitPropertyFactory" ref="unitPropertyFactory"/>
+        <property name="buffPoolFactory" ref="buffPoolFactory"/>
+        <property name="defaultTowerListeners">
+            <list>
+                <ref bean="unitRoundFinishListener"/>
+                <ref bean="beatBackListener"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="teamFactory" class="com.liushu.game.fight.core.model.factory.TeamFactoryImpl">
+        <property name="publisherFactory" ref="eventPublisherFactory"/>
+        <property name="towerFactory" ref="towerFactory"/>
+    </bean>
+    <bean id="orderFactory" class="com.liushu.game.fight.core.battle.order.OrderFactory"/>
+
+</beans>

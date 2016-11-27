@@ -7,9 +7,10 @@ import com.liushu.game.fight.core.model.listener.base.ListenerFactory
 /**
  * Created by asus-pc on 2016-10-4.
  */
+@Deprecated
 class ManaBurn extends Buff implements Feature{
 
-    static final manaBurnValue = 5
+    def manaBurnValue = 5
 
     ManaBurn() {
         ManaBurnListener listener = ListenerFactory.createListener(ManaBurnListener) as ManaBurnListener

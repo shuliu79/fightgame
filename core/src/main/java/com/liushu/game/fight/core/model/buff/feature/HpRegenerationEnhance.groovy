@@ -9,16 +9,16 @@ import com.liushu.game.fight.core.model.buff.Buff
  */
 class HpRegenerationEnhance extends Buff implements Feature{
 
-    static final hpRegenerationValue = 5
+    def hpRegenerationValue = 5
 
     @Override
-    def afterAdd(Unit unit) {
-        unit.hpRegeneration.enhance(hpRegenerationValue)
+    def afterAdd() {
+        holder.hpRegeneration.enhance(hpRegenerationValue)
     }
 
     @Override
-    def afterRemove(Unit unit) {
-        unit.hpRegeneration.weaken(hpRegenerationValue)
+    def afterRemove() {
+        holder.hpRegeneration.weaken(hpRegenerationValue)
     }
 
 }

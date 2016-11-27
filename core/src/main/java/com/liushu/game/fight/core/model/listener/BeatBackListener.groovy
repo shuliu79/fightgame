@@ -20,9 +20,8 @@ class BeatBackListener extends AbstractAttackListener{
     }
 
     @Override
-    def doAfterExecute(AttackAction event) {
-        def beatBackAction = event.target.attack()
-        holder.executeEvent(beatBackAction)
+    void doAfterExecute(AttackAction event) {
+        event.target.attack(event.source)
     }
 
 }

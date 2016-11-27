@@ -8,10 +8,10 @@ import com.liushu.game.fight.core.model.listener.base.AbstractHurtListener
  */
 class MagicShieldListener extends AbstractHurtListener{
 
-    static final factor = 2
+    def factor = 2
 
     @Override
-    def doBeforeExecute(HurtEvent event) {
+    void doBeforeExecute(HurtEvent event) {
         if (event.target.mp.value>event.value){
             reduceHurt(event,event.value)
         }else{

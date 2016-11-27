@@ -5,7 +5,7 @@ import com.justonetech.bimgeom.ifcgeomserver.tools.event.Event
 /**
  * Created by asus-pc on 2016-10-2.
  */
-interface BuffPool {
+interface BuffPool extends EventPublishAble{
 
     def addBuff(int time,Buff buff)
 
@@ -14,7 +14,5 @@ interface BuffPool {
     boolean hasBuff(Class clazz)
 
     def nextRound()
-
-    def publishEvent(Event event)
 
 }

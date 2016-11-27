@@ -13,7 +13,7 @@ import com.liushu.game.fight.core.system.StaticValues
  */
 class AttackVampireListener extends PhysicsHurtListener{
 
-    final static rate = 0.05
+    double rate = 0.05
 
     @Override
     protected boolean canHandle_(HurtEvent event) {
@@ -21,7 +21,7 @@ class AttackVampireListener extends PhysicsHurtListener{
     }
 
     @Override
-    def doAfterExecute(HurtEvent event) {
+    void doAfterExecute(HurtEvent event) {
         int vampireValue = (int)(event.value * rate)
         def healEvent = EventFactory.createHealEvent(event.source,vampireValue)
         event.source.executeEvent(healEvent)

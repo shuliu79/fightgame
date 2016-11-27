@@ -8,18 +8,16 @@ import com.liushu.game.fight.core.model.buff.Buff
  */
 class MagicPowerEnhance extends Buff<Hero> implements Feature{
 
-    static final magicPowerValue = 2
-
-    Hero hero
+    def magicPowerValue = 2
 
     @Override
-    def afterAdd(Hero hero) {
-        hero.magicPower.enhance(magicPowerValue)
+    def afterAdd() {
+        holder.magicPower.enhance(magicPowerValue)
     }
 
     @Override
-    def afterRemove(Hero hero) {
-        hero.magicPower.weaken(magicPowerValue)
+    def afterRemove() {
+        holder.magicPower.weaken(magicPowerValue)
     }
 
 }

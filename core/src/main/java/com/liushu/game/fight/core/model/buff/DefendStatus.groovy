@@ -8,15 +8,15 @@ import com.liushu.game.fight.core.model.Unit
  */
 class DefendStatus extends Buff{
 
-    final static defendValue = 10
+    def defendValue = 10
 
     @Override
-    def afterAdd(Unit unit) {
-        unit.armor.add(defendValue)
+    def afterAdd() {
+        holder.armor.add(defendValue)
     }
 
     @Override
-    def afterRemove(Unit unit) {
-        unit.armor.subtract(defendValue)
+    def afterRemove() {
+        holder.armor.subtract(defendValue)
     }
 }

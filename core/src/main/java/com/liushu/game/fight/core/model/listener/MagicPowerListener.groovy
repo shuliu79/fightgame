@@ -11,10 +11,10 @@ import com.liushu.game.fight.core.system.StaticValues
 class MagicPowerListener extends AbstractAttackListener{
     //攻击附魔
 
-    static magicHurt = 10
+    def magicHurt = 10
 
     @Override
-    def doAfterExecute(AttackAction event) {
+    void doAfterExecute(AttackAction event) {
         def hurtEvent = EventFactory.createHurtEvent(event.source,event.target,StaticValues.MAGIC_HURT,magicHurt)
         event.source.executeEvent(hurtEvent)
     }

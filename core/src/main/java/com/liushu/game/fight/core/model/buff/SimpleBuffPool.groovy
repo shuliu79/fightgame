@@ -1,16 +1,16 @@
 package com.liushu.game.fight.core.model.buff
 
 import com.justonetech.bimgeom.ifcgeomserver.tools.event.Event
+import com.justonetech.bimgeom.ifcgeomserver.tools.event.EventPublisher
 import com.liushu.game.fight.core.model.Unit
 import com.liushu.game.fight.core.model.buff.feature.Feature
-import com.liushu.game.fight.core.model.event.UnitEventPublisher
 import org.apache.commons.logging.Log
 import org.apache.commons.logging.LogFactory
 
 /**
  * Created by asus-pc on 2016-10-2.
  */
-class SimpleBuffPool implements BuffPool{
+class SimpleBuffPool implements BuffPool,EventPublishAble{
 
     Log log = LogFactory.getLog(SimpleBuffPool)
     //1.记录单位拥有的状态，buff等，buff可能对应多个listener
@@ -18,12 +18,17 @@ class SimpleBuffPool implements BuffPool{
     //3.提供查询buff等接口
     //4.随着回合迭代，对buff进行管理
 
-    Unit unit
-    UnitEventPublisher publisher
+    Unit holder
+    EventPublisher publisher
     Map<String,BuffHolder> buffMap
+
+    SimpleBuffPool(Unit holder){
+        this.holder = holder
+    }
 
     @Override
     def addBuff(int time, Buff buff) {
+        buff.setHolder(holder)
         log.debug("add buff ${buff.class.simpleName},${time}")
         def buffHolder = new BuffHolder(buff,time)
         buffMap.put(buff.id,buffHolder)
@@ -32,7 +37,7 @@ class SimpleBuffPool implements BuffPool{
                 publisher.registerListener(it)
             }
         }
-        buff.afterAdd(unit)
+        buff.afterAdd()
     }
 
     @Override
@@ -41,11 +46,11 @@ class SimpleBuffPool implements BuffPool{
         if (buffMap.containsKey(buff.id)){
             if (buff.listeners!=null) {
                 buff.listeners.each {
-                    publisher.removeListener(it)
+                    publisher.removeListener(it.class)
                 }
             }
             buffMap.remove(buff.id)
-            buff.afterRemove(unit)
+            buff.afterRemove()
         }else{
             log.warn("buff not found:${buff.class.simpleName} ${buff.id}")
         }
@@ -74,7 +79,7 @@ class SimpleBuffPool implements BuffPool{
     }
 
     @Override
-    def publishEvent(Event event) {
+    boolean publishEvent(Event event) {
         publisher.publishEvent(event)
     }
 }

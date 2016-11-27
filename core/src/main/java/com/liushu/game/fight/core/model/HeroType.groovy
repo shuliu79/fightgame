@@ -5,8 +5,8 @@ package com.liushu.game.fight.core.model
  */
 class HeroType {
 
-    final static BLOOD = new HeroType(
-            name:"blood",
+    final static BLANK = new HeroType(
+            name:"blank",
             type: 0,
             talent: {}
     )

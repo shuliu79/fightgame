@@ -12,6 +12,6 @@ class LevelConfig {
             600,650,700,750,800//12~16
     ] as int[]
 
-    static final int maxExperience = levelExperience.inject(0){a,b->b}
+    static final int maxExperience = levelExperience.inject(0){a,b->a+=b}
 
 }

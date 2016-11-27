@@ -1,17 +1,18 @@
 package com.liushu.game.fight.core.model.buff
 
 import com.liushu.game.fight.core.model.Unit
-import com.liushu.game.fight.core.model.factory.HeroEventPublisherFactory
+import com.liushu.game.fight.core.model.factory.EventPublisherFactory
 
 /**
  * Created by asus-pc on 2016-10-2.
  */
 class BuffPoolFactory {
 
-    static BuffPool createBuffPool(Unit unit){
-        def pool = new SimpleBuffPool()
-        pool.publisher = HeroEventPublisherFactory.createUnitEventPublisher(unit)
-        pool.unit = unit
+    EventPublisherFactory factory
+
+    BuffPool createBuffPool(Unit holder){
+        def pool = new SimpleBuffPool(holder)
+        pool.publisher = factory.createPublisher(holder)
         pool.buffMap = new HashMap<>()
         return pool
     }

@@ -21,6 +21,6 @@ class DefendAction extends UnitAction{
     protected void doExecute() {
         source.hp.add(hpRegeneration)
         source.mp.add(mpRegeneration)
-        source.buffPool.addBuff(1,BuffFactory.createBuff(DefendStatus))
+        source.addBuff(1,BuffFactory.createBuff(DefendStatus))
     }
 }

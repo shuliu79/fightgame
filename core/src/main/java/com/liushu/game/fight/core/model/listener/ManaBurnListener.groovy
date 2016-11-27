@@ -19,7 +19,7 @@ class ManaBurnListener extends AbstractAttackListener{
     }
 
     @Override
-    def doAfterExecute(AttackAction event) {
+    void doAfterExecute(AttackAction event) {
         def subtract = event.target.mp.subtract(burnValue)
         def hurtEvent = EventFactory.createHurtEvent(event.source,event.target,StaticValues.PURE_HURT,subtract)
         event.source.executeEvent(hurtEvent)

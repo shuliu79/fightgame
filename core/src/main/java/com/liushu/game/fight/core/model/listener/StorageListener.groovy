@@ -1,6 +1,7 @@
 package com.liushu.game.fight.core.model.listener
 
 import com.liushu.game.fight.core.model.Hero
+import com.liushu.game.fight.core.model.Unit
 import com.liushu.game.fight.core.model.event.RoundStartEvent
 import com.liushu.game.fight.core.model.listener.base.AbstractRoundStartListener
 
@@ -9,26 +10,25 @@ import com.liushu.game.fight.core.model.listener.base.AbstractRoundStartListener
  */
 class StorageListener extends AbstractRoundStartListener{
 
-    static final hpRegenerationAdd = 0.8
-    static final attackAdd = 1.5
+    def hpRegenerationAdd = 0.8
+    def attackAdd = 1.5
 
     int lastRound = 0
 
-    Hero hero
     @Override
-    def doAfterExecute(RoundStartEvent event) {
-        hero.hpRegeneration.enhance((calHpRegeneration(event.round)-calHpRegeneration(event.round-1)))
+    void doAfterExecute(RoundStartEvent event) {
+        (Unit)holder.hpRegeneration.enhance((calHpRegeneration(event.round)-calHpRegeneration(event.round-1)))
         def attackEnhance = (calAttack(event.round)-calAttack(event.round-1))
-        hero.maxAttack.enhance(attackEnhance)
-        hero.minAttack.enhance(attackEnhance)
+        (Unit)holder.maxAttack.enhance(attackEnhance)
+        (Unit)holder.minAttack.enhance(attackEnhance)
         lastRound = event.round
     }
 
-    def static calHpRegeneration(int round){
+    def calHpRegeneration(int round){
         return (int)(round*hpRegenerationAdd)
     }
 
-    def static calAttack(int round){
+    def calAttack(int round){
         return (int)(attackAdd*attackAdd)
     }
 
